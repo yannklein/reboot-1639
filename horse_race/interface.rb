@@ -5,16 +5,64 @@
 
 # Step 1 - Simple race (no loop)
 # 1. Welcome the user
+puts "===🐎====🐎====🐎==="
+puts 'Welcome to the Horse Race!'
+puts "===🐎====🐎====🐎===="
 # 2. Create a list of horses (Array)
+horses = ["Yann of the Vale","Jelly Bean","Crazy tornado","Poney Boy","Princess"]
+#                 0               1              2             3          4   (length => 5)
 # 3. Display the list of horses (iterate using each_with_index)
   # 1 - Yann of the Vale
   # 2 - Jelly Bean
   # 3 - Crazy tornado
   # 4 - Poney Boy
   # 5 - Princess
+horses.each_with_index do |horse, index|
+  puts "#{index + 1} - #{horse}"
+  sleep 0.3
+end
 # 4. Ask the user to choose a horse (number)
+puts "\nChoose a horse number!"
 # 5. Store it in a variable as an index
+user_index_choice = gets.chomp.to_i - 1
 # 6. Get a random horse, store it in a variable
-# 7. if the user the horse is the winner, annoucnce the win
-# 8. otherwise, annoucnce the lose
+computer_index_choice = rand(0...horses.length)
+# 7. if the user the horse is the winner, announce the win
+if user_index_choice == computer_index_choice
+  puts "\nCongratulations! Winning horse: #{horses[computer_index_choice]}"
+# 8. otherwise, announce the lose
+else
+  puts "\nYou lost!! Winning horse: #{horses[computer_index_choice]}"
 # 9. Display the user horse and the winning horse
+end
+
+# # 4. Ask the user to choose a horse (number)
+# puts "Choose a horse number!"
+# # 5. Store it in a variable as an index
+# user_index_choice = gets.chomp.to_i - 1
+# user_choice = horses[user_index_choice]
+# # 6. Get a random horse, store it in a variable
+# computer_choice = horses.sample
+# # 7. if the user the horse is the winner, announce the win
+# if user_choice == computer_choice
+#   puts "Congratulations! Winning horse: #{computer_choice}"
+# # 8. otherwise, announce the lose
+# else
+#   puts "You lost!! Winning horse: #{computer_choice}"
+# # 9. Display the user horse and the winning horse
+# end
+
+# Step 2 - Race with a loop 
+# 10. Ask the user if she/he wants to play again
+# 11. Get user answer
+# 12. Re-do the Step 1 until the user says no
+
+# Step 3 - Add the betting (win = +5000¥, lose = -1000¥)
+# 13. initialize a money variable (10,000¥)
+# 14. if result is a win, add 5000
+#     else, substract 1000
+# 15. Display the new balance
+# 16. if the user runs out of money, (ask for his/her CC) he/she cannot play
+
+
+# optional: ask the user what she/he wants to bet
