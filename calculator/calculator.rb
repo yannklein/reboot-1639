@@ -1,10 +1,24 @@
-def calculator(first_number, second_number, operator)
-  return case operator
-  when "+" then first_number + second_number
-  when "-" then first_number - second_number
-  when "*" then first_number * second_number
-  when "/" then first_number.fdiv(second_number)
+def calculator(first_number, seconde_number, operator)
+  if operator == "+"
+    return first_number + seconde_number
+  elsif operator == "-"
+    return first_number - seconde_number
+  elsif operator == "*"
+    return first_number * seconde_number
+  elsif operator == "/"
+    return first_number / seconde_number
   else
-    "Your input is invalid!!"
+    return "wrong operator!"
+  end
+end
+
+def calculator(first_number, seconde_number, operator)
+  case operator
+  when "+" then first_number + seconde_number
+  when "-" then first_number - seconde_number
+  when "*" then first_number * seconde_number
+  when "/" then first_number / seconde_number
+  else
+    return "wrong operator!"
   end
 end
