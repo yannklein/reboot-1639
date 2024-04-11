@@ -5,7 +5,7 @@ store = {
   daikon: {stock: 2, price: 100},
   natto: {stock: 30, price: 50}
 }
-cart = {}
+cart = Hash.new(0)
 bill = 0
 user_choice = 'anything but quit!'
 
@@ -43,25 +43,23 @@ until user_choice == "quit"
   user_choice_number = gets.chomp.to_i
 
   # if not enough stock in store, say sorry and ask for a new item
-  if user_choice_number > store[item_key][:stock]
-    puts "There is not enough #{item_key}, we have only #{store[item_key][:stock]}"
+  item_stock = store[item_key][:stock]
+  if user_choice_number > item_stock
+    puts "There is not enough #{item_key}, we have only #{item_stock}"
     next
   end
 
   # core part of the code! update the stock and the cart 
   store[item_key][:stock] -= user_choice_number
-  if cart.key?(item_key)
-    cart[item_key] += user_choice_number
-  else
-    cart[item_key] = user_choice_number
-  end
+  cart[item_key] += user_choice_number
 end
 
 puts "\n-------BILL---------"
 cart.each do |item, quantity|
-  sub_total = quantity * store[item][:price]
+  unit_price = store[item][:price]
+  sub_total = quantity * unit_price
   bill += sub_total
-  puts "#{item}: #{quantity} X ¥#{store[item][:price]} = ¥#{sub_total}"
+  puts "#{item}: #{quantity} X ¥#{unit_price} = ¥#{sub_total}"
 end
 puts "TOTAL: ¥#{bill}"
 puts "--------------------"

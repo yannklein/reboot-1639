@@ -2,88 +2,87 @@
 # PSEUDOCODE
 
 # Step 1+2 - Shopping cart with quantity 🛍🛍
-# SEE CODE BELOW
 
 # Step 3 - Adding availability 🛍🛍🛍
-# 1. Redesign the store hash for it to store item's stock
-# 2. Add stock when display store
-# 3. When asked how many and get user input:
-#    - check if enough stock, if not "Sorry, only XXX remaining"
-#    - the stock decreases
-# 4. Update the code in the billing part (for the store)
+
+# 1. Redesign the store
+# store = {
+#   'kiwi' => { 'price' =>  200, 'stock' => 100 },
+#   # ...
+# }
+
+# 2. Change the store display code
+
+# 3. after knowing the wanted quantity,
+# check if there is stock
+# if yes, add quantity to the cart, decrease store quantity
+# if no, say "Sorry, there are only XX kiwis left."
+
+# 4. Update bill calculation (the store part)
 
 ##########################
 
-# 1. welcome the users
-puts "-~" * 10
-puts "Welcome to Instacart"
-puts "-~" * 10
+# Step 1+2 - Shopping cart with quantity 🛍🛍
 
-# 2. define a store (hash)
+# 1. Welcome the user
+puts "~" * 20
+puts "Welcome to the Le Wagon store"
+puts "~" * 20
+# 2. Create a store item (array)
 store = {
-  "kiwi" => {"price" => 100, "stock" => 10},
-  "mango" => {"price" => 500, "stock" => 5},
-  "natto" => {"price" => 50, "stock" => 7},
-  "avocado" => {"price" => 200, "stock" => 1},
-  "mighty banana" => {"price" => 1000, "stock" => 1000}
+  'kiwi' => { 'price' =>  200, 'stock' => 10 },
+  'banana' => { 'price' =>  100, 'stock' => 5 },
+  'avocado' => { 'price' =>  500, 'stock' => 3 },
+  'strawberry' => { 'price' => 8000, 'stock' => 10 }
 }
-# 2.5 define a cart (hash)
+# 3. Create a cart
 cart = {
-  # "items" => quantity
+  # item => amount
 }
-# 3. display the store items to the user, iterate
-store.each do |item, info|
-  puts "#{item.capitalize}: ¥#{info["price"]} ( #{info["stock"]} available)"
+# 4. Display the store items (iterate)
+store.each do |item, details|
+  # details is a hash { 'price' => XXX, 'stock' => YYY }
+  puts "#{item} - ¥#{details['price']} (#{details['stock']} available)"
 end
 
-user_choice = "anything_but_quit"
-
-until user_choice == 'quit'
-  # 4. ask user which item they would like
-  puts "Which item? (or 'quit' to checkout)"
-  # 5. get the user input
-  user_choice = gets.chomp
-  # 5.5 if item not in store, say "We don't have it"
-  # if store[user_choice].nil?
-  if store.key?(user_choice)
-    # 6. Ask how many?
-    puts "How many"
-    # 7. get the user input, and store it in the user's cart with the items name
+puts "~" * 20
+# 9. Loop steps 5 to 8 until the user says quit
+user_input = 'anything but quit'
+until user_input == 'quit'
+  # while user_input != 'quit'
+  # 5. Ask user which item
+  puts "What item would you like?"
+  # 6. Get user input
+  user_input = gets.chomp
+  if store.key?(user_input)
+    # 7. Ask how many
+    puts "How many?"
+    # 8. Get user input, store item and quantity in the cart
     quantity = gets.chomp.to_i
-    available = store[user_choice]["stock"]
-    if quantity > available
-      puts "Sorry there is only #{available} left."
-    else
-      # add items with quantity into cart
-      store[user_choice]["stock"] -= quantity
-      # available = available - quantity
-      unless cart.key?(user_choice)
-        cart[user_choice] = 0
+    if quantity < store[user_input]['stock']
+      unless cart.key?(user_input)
+        cart[user_input] = 0
       end
-      cart[user_choice] += quantity
-      # p cart
+      cart[user_input] += quantity
+      store[user_input]['stock'] -= quantity
+    else
+      puts "Sorry, we just have #{store[user_input]['stock']} #{user_input} left"
     end
-  elsif user_choice == 'quit'
-    puts "Good bye!"
-  else 
-    puts "We don't have it"
+  elsif user_input == "quit"
+    puts "Good bye"
+  else
+    puts "We don't have #{user_input}"
   end
-  # 8. loop over steps 4 to 7 until the user input is 'quit'
 end
-# 9. calculate the bill
-puts "-------BILL---------"
+# p cart
+# 10. Calculate the bill (price * quantity), and the total
 total = 0
-# 10. display the bill, iterate throught the cart hash
 cart.each do |item, quantity|
-  # store[item] gives us a hash with the price and stock info
-  # store[item]["price"] gives us the item's unit price
-  sub_total = store[item]["price"] * quantity
-  total += sub_total
-  # kiwi: 2 X 1.25€ = 2.5€
-  puts "#{item}: #{quantity} X ¥#{store[item]["price"]} = ¥#{sub_total}"
+  # item price = store unit price * quantity
+  item_price = store[item]['price'] * quantity
+  total += item_price
+  # kiwi: 1 X ¥200 = ¥200
+  puts "#{item}: #{quantity} X ¥#{store[item]['price']} = ¥#{item_price}"
 end
+# TOTAL: ¥2200
 puts "TOTAL: ¥#{total}"
-
-
-
-
